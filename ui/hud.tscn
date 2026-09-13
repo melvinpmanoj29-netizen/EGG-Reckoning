@@ -1,0 +1,215 @@
+[gd_scene load_steps=7 format=3 uid="uid://cshud00000000"]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_hudscr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.12, 0.04, 0.05, 0.85)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.1, 0.12, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.85, 0.15, 0.2, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fuel_bg"]
+bg_color = Color(0.12, 0.08, 0.03, 0.85)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.2, 0.08, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fuel_fill"]
+bg_color = Color(1, 0.55, 0.05, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+bg_color = Color(0.04, 0.03, 0.06, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.65, 0.3, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boss_fill"]
+bg_color = Color(0.9, 0.15, 0.1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hudscr")
+
+[node name="Margin" type="MarginContainer" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 290.0
+offset_bottom = 105.0
+
+[node name="TopLeft" type="Control" parent="Margin"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Margin/TopLeft"]
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 85.0
+theme_override_constants/separation = 10
+
+[node name="HealthBar" type="ProgressBar" parent="Margin/TopLeft/VBox"]
+custom_minimum_size = Vector2(260, 26)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="ValLabel" type="Label" parent="Margin/TopLeft/VBox/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.95, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "VITALS: 100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FuelBar" type="ProgressBar" parent="Margin/TopLeft/VBox"]
+custom_minimum_size = Vector2(260, 22)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fuel_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fuel_fill")
+value = 100.0
+show_percentage = false
+
+[node name="ValLabel" type="Label" parent="Margin/TopLeft/VBox/FuelBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 13
+text = "BURNER FUEL: 100%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -110.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PromptPanel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(380, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
+
+[node name="PromptLabel" type="Label" parent="Center/PromptPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "[E] Investigate"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TopCenter" type="CenterContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 35.0
+offset_bottom = 90.0
+grow_horizontal = 2
+
+[node name="AlertLabel" type="Label" parent="TopCenter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.25, 0.25, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BossBarAnchor" type="CenterContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -75.0
+offset_right = 220.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BossBarContainer" type="VBoxContainer" parent="BossBarAnchor"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BossNameLabel" type="Label" parent="BossBarAnchor/BossBarContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 15
+text = "DEMON EGG — SPECIMEN ZERO"
+horizontal_alignment = 1
+
+[node name="BossBar" type="ProgressBar" parent="BossBarAnchor/BossBarContainer"]
+custom_minimum_size = Vector2(420, 24)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_boss_fill")
+max_value = 300.0
+value = 300.0
+show_percentage = false
+
+[node name="BossValLabel" type="Label" parent="BossBarAnchor/BossBarContainer/BossBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "300 / 300"
+horizontal_alignment = 1
+vertical_alignment = 1

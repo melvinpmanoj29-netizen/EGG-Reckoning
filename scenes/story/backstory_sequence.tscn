@@ -1,0 +1,141 @@
+[gd_scene load_steps=3 format=3 uid="uid://csbs000000000"]
+
+[ext_resource type="Script" path="res://scenes/story/backstory_sequence.gd" id="1_bsscr"]
+[ext_resource type="Texture2D" path="res://assets/story/panel_1.jpg" id="2_p1tex"]
+
+[node name="BackstorySequence" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bsscr")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.01, 0.03, 1)
+
+[node name="IllustrationContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelTexture" type="TextureRect" parent="IllustrationContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_p1tex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VignetteOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="BottomScrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -260.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.03, 0.02, 0.04, 0.88)
+
+[node name="TopBar" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 30
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+
+[node name="ChapterLabel" type="Label" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 0.75, 0.45, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "PROLOGUE: ORIGIN OF THE RECKONING"
+
+[node name="ProgressLabel" type="Label" parent="TopBar/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "1 / 10"
+
+[node name="Spacer" type="Control" parent="TopBar/HBox"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="SkipButton" type="Button" parent="TopBar/HBox"]
+custom_minimum_size = Vector2(80, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "Skip >>"
+
+[node name="BottomContent" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -240.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="BottomContent"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="StoryLabel" type="Label" parent="BottomContent/VBox"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 19
+text = "Story text goes here..."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ButtonHBox" type="HBoxContainer" parent="BottomContent/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="ContinueButton" type="Button" parent="BottomContent/VBox/ButtonHBox"]
+custom_minimum_size = Vector2(180, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.7, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Continue [Space] →"

@@ -1,0 +1,132 @@
+[gd_scene load_steps=4 format=3 uid="uid://cscs000000000"]
+
+[ext_resource type="Script" path="res://scenes/character/character_select.gd" id="1_csscr"]
+[ext_resource type="Texture2D" path="res://assets/characters/boy/portrait.jpg" id="2_boytex"]
+[ext_resource type="Texture2D" path="res://assets/characters/girl/portrait.jpg" id="3_girltex"]
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_csscr")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.02, 0.04, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterVBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="HeaderBox" type="VBoxContainer" parent="Center/CenterVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="Center/CenterVBox/HeaderBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 38
+text = "SELECT YOUR INVESTIGATOR"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Center/CenterVBox/HeaderBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.65, 0.6, 1)
+theme_override_font_sizes/font_size = 15
+text = "Equipped with Incendiary Burner & Heavy Flashlight. Identical abilities."
+horizontal_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="Center/CenterVBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 60
+
+[node name="BoyCard" type="VBoxContainer" parent="Center/CenterVBox/HBox"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PortraitPanel" type="PanelContainer" parent="Center/CenterVBox/HBox/BoyCard"]
+custom_minimum_size = Vector2(240, 320)
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="Center/CenterVBox/HBox/BoyCard/PortraitPanel"]
+layout_mode = 2
+texture = ExtResource("2_boytex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BoyLabel" type="Label" parent="Center/CenterVBox/HBox/BoyCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
+theme_override_font_sizes/font_size = 22
+text = "MALE OPERATIVE"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="Center/CenterVBox/HBox/BoyCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 13
+text = "Heavy leather jacket & tactical harness"
+horizontal_alignment = 1
+
+[node name="BoyButton" type="Button" parent="Center/CenterVBox/HBox/BoyCard"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "Deploy as Male Operative"
+
+[node name="GirlCard" type="VBoxContainer" parent="Center/CenterVBox/HBox"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PortraitPanel" type="PanelContainer" parent="Center/CenterVBox/HBox/GirlCard"]
+custom_minimum_size = Vector2(240, 320)
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="Center/CenterVBox/HBox/GirlCard/PortraitPanel"]
+layout_mode = 2
+texture = ExtResource("3_girltex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="GirlLabel" type="Label" parent="Center/CenterVBox/HBox/GirlCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
+theme_override_font_sizes/font_size = 22
+text = "FEMALE OPERATIVE"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="Center/CenterVBox/HBox/GirlCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 13
+text = "Reinforced canvas parka & sidearm holster"
+horizontal_alignment = 1
+
+[node name="GirlButton" type="Button" parent="Center/CenterVBox/HBox/GirlCard"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "Deploy as Female Operative"

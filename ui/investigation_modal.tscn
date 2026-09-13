@@ -1,0 +1,232 @@
+[gd_scene load_steps=7 format=3 uid="uid://csin00000000"]
+
+[ext_resource type="Script" path="res://ui/investigation_modal.gd" id="1_invscr"]
+[ext_resource type="Texture2D" path="res://assets/ui/dossier_card_bg.png" id="2_dosbg"]
+[ext_resource type="Texture2D" path="res://assets/ui/cctv_cam1.png" id="3_cam1tex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_cam"]
+bg_color = Color(0.1, 0.15, 0.12, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.5, 0.35, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_active"]
+bg_color = Color(0.18, 0.35, 0.22, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.9, 0.55, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_btn"]
+bg_color = Color(0.2, 0.08, 0.1, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.25, 0.3, 1)
+
+[node name="InvestigationModal" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_invscr")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(820, 540)
+layout_mode = 2
+
+[node name="CardBackground" type="TextureRect" parent="Center/Panel"]
+layout_mode = 2
+texture = ExtResource("2_dosbg")
+expand_mode = 1
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Center/Panel/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.5, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 18
+text = "INCIDENT DOSSIER"
+
+[node name="StampLabel" type="Label" parent="Center/Panel/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ CONFIDENTIAL EVIDENCE ]"
+
+[node name="Divider" type="HSeparator" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ClueContainer" type="VBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="TextLabel" type="RichTextLabel" parent="Center/Panel/Margin/VBox/ClueContainer"]
+custom_minimum_size = Vector2(0, 310)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.92, 0.9, 0.85, 1)
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+text = "Clue details..."
+
+[node name="StatusLabel" type="Label" parent="Center/Panel/Margin/VBox/ClueContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "● EVIDENCE LOGGED TO CASE ARCHIVE"
+
+[node name="CCTVContainer" type="VBoxContainer" parent="Center/Panel/Margin/VBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="BtnHBox" type="HBoxContainer" parent="Center/Panel/Margin/VBox/CCTVContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 14
+
+[node name="Cam1Btn" type="Button" parent="Center/Panel/Margin/VBox/CCTVContainer/BtnHBox"]
+custom_minimum_size = Vector2(210, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.95, 0.7, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_active")
+text = "[CAM 01: TOWN PERIMETER]"
+
+[node name="Cam2Btn" type="Button" parent="Center/Panel/Margin/VBox/CCTVContainer/BtnHBox"]
+custom_minimum_size = Vector2(210, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.95, 0.7, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cam")
+text = "[CAM 02: HOSPITAL WARD]"
+
+[node name="Cam3Btn" type="Button" parent="Center/Panel/Margin/VBox/CCTVContainer/BtnHBox"]
+custom_minimum_size = Vector2(210, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.95, 0.7, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_cam")
+text = "[CAM 03: VAULT SPECIMEN]"
+
+[node name="ScreenFrame" type="Control" parent="Center/Panel/Margin/VBox/CCTVContainer"]
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FootageTexture" type="TextureRect" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_cam1tex")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="OverlayMargin" type="MarginContainer" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame/OverlayMargin"]
+layout_mode = 2
+
+[node name="TopInfo" type="HBoxContainer" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame/OverlayMargin/VBox"]
+layout_mode = 2
+
+[node name="RecLabel" type="Label" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame/OverlayMargin/VBox/TopInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.25, 0.25, 1)
+theme_override_font_sizes/font_size = 13
+text = "● REC"
+
+[node name="TimestampLabel" type="Label" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame/OverlayMargin/VBox/TopInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.4, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "2026-09-13 02:41:09 AM"
+horizontal_alignment = 2
+
+[node name="Spacer" type="Control" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame/OverlayMargin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FeedDescription" type="Label" parent="Center/Panel/Margin/VBox/CCTVContainer/ScreenFrame/OverlayMargin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 1, 0.75, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 13
+text = "CAM FEED ANALYSIS..."
+autowrap_mode = 3
+
+[node name="BottomBar" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="CloseBtn" type="Button" parent="Center/Panel/Margin/VBox/BottomBar"]
+custom_minimum_size = Vector2(210, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_close_btn")
+text = "Close Dossier [E / Esc]"

@@ -1,0 +1,277 @@
+[gd_scene load_steps=22 format=3 uid="uid://csbr000000000"]
+
+[ext_resource type="Script" path="res://scenes/world/boss_room.gd" id="1_brscr"]
+[ext_resource type="Script" path="res://scenes/world/flicker_light.gd" id="2_flscr"]
+[ext_resource type="PackedScene" uid="uid://cspl000000000" path="res://player/player.tscn" id="3_plscn"]
+[ext_resource type="PackedScene" uid="uid://csdb00000000" path="res://enemies/demon_egg_boss.tscn" id="4_bosscn"]
+[ext_resource type="PackedScene" uid="uid://cshud00000000" path="res://ui/hud.tscn" id="5_hudscn"]
+[ext_resource type="PackedScene" uid="uid://csin00000000" path="res://ui/investigation_modal.tscn" id="6_modscn"]
+[ext_resource type="PackedScene" uid="uid://csint00000000" path="res://scenes/interactables/interactable.tscn" id="7_intscn"]
+[ext_resource type="PackedScene" uid="uid://csfp00000000" path="res://scenes/pickups/fuel_pickup.tscn" id="8_fpscn"]
+[ext_resource type="PackedScene" uid="uid://cshp00000000" path="res://scenes/pickups/health_pickup.tscn" id="9_hpscn"]
+[ext_resource type="Texture2D" path="res://assets/environment/lair/cult_stone.png" id="10_clttex"]
+[ext_resource type="Texture2D" path="res://assets/props/blood_splatter.png" id="11_bldtex"]
+[ext_resource type="PackedScene" uid="uid://csinv00000000" path="res://ui/inventory_menu.tscn" id="12_invscn"]
+
+[sub_resource type="Gradient" id="Gradient_cult_purple"]
+colors = PackedColorArray(0.8, 0.2, 0.9, 1, 0.4, 0.05, 0.5, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cult"]
+gradient = SubResource("Gradient_cult_purple")
+width = 380
+height = 380
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="Gradient" id="Gradient_red_torch"]
+colors = PackedColorArray(1, 0.3, 0.1, 1, 0.6, 0.1, 0.0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_torch"]
+gradient = SubResource("Gradient_red_torch")
+width = 320
+height = 320
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vwall"]
+size = Vector2(40, 1040)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hwall"]
+size = Vector2(1440, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
+size = Vector2(60, 60)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_retry_btn"]
+bg_color = Color(0.2, 0.08, 0.1, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.3, 0.35, 1)
+
+[node name="BossRoom" type="Node2D"]
+script = ExtResource("1_brscr")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.12, 0.08, 0.16, 1)
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Floor" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("10_clttex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-700, -500, 700, -500, 700, 500, -700, 500)
+
+[node name="RitualCircle" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(0, -180, 100, -140, 160, -70, 180, 0, 160, 70, 100, 140, 0, 180, -100, 140, -160, 70, -180, 0, -160, -70, -100, -140)
+color = Color(0.3, 0.08, 0.22, 0.6)
+
+[node name="InnerSeal" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(0, -100, 80, 0, 0, 100, -80, 0)
+color = Color(0.5, 0.1, 0.25, 0.5)
+
+[node name="Decals" type="Node2D" parent="."]
+
+[node name="Blood1" type="Sprite2D" parent="Decals"]
+position = Vector2(-280, -120)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("11_bldtex")
+
+[node name="Blood2" type="Sprite2D" parent="Decals"]
+position = Vector2(280, 120)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("11_bldtex")
+
+[node name="PerimeterWalls" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(-710, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallLeft"]
+shape = SubResource("RectangleShape2D_vwall")
+
+[node name="WallRight" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(710, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallRight"]
+shape = SubResource("RectangleShape2D_vwall")
+
+[node name="WallTop" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(0, -510)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallTop"]
+shape = SubResource("RectangleShape2D_hwall")
+
+[node name="WallBottom" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(0, 510)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallBottom"]
+shape = SubResource("RectangleShape2D_hwall")
+
+[node name="Pillars" type="Node2D" parent="."]
+
+[node name="Pillar1" type="StaticBody2D" parent="Pillars"]
+position = Vector2(-280, -200)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillars/Pillar1"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Visual" type="Polygon2D" parent="Pillars/Pillar1"]
+polygon = PackedVector2Array(-30, -30, 30, -30, 30, 30, -30, 30)
+color = Color(0.2, 0.15, 0.22, 1)
+
+[node name="Pillar2" type="StaticBody2D" parent="Pillars"]
+position = Vector2(280, -200)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillars/Pillar2"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Visual" type="Polygon2D" parent="Pillars/Pillar2"]
+polygon = PackedVector2Array(-30, -30, 30, -30, 30, 30, -30, 30)
+color = Color(0.2, 0.15, 0.22, 1)
+
+[node name="Pillar3" type="StaticBody2D" parent="Pillars"]
+position = Vector2(-280, 200)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillars/Pillar3"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Visual" type="Polygon2D" parent="Pillars/Pillar3"]
+polygon = PackedVector2Array(-30, -30, 30, -30, 30, 30, -30, 30)
+color = Color(0.2, 0.15, 0.22, 1)
+
+[node name="Pillar4" type="StaticBody2D" parent="Pillars"]
+position = Vector2(280, 200)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillars/Pillar4"]
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="Visual" type="Polygon2D" parent="Pillars/Pillar4"]
+polygon = PackedVector2Array(-30, -30, 30, -30, 30, 30, -30, 30)
+color = Color(0.2, 0.15, 0.22, 1)
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="AltarLight" type="PointLight2D" parent="Lights"]
+position = Vector2(0, -120)
+texture = SubResource("GradientTexture2D_cult")
+texture_scale = 1.8
+energy = 1.4
+script = ExtResource("2_flscr")
+
+[node name="TorchLeft" type="PointLight2D" parent="Lights"]
+position = Vector2(-450, 0)
+texture = SubResource("GradientTexture2D_torch")
+texture_scale = 1.6
+energy = 1.2
+script = ExtResource("2_flscr")
+
+[node name="TorchRight" type="PointLight2D" parent="Lights"]
+position = Vector2(450, 0)
+texture = SubResource("GradientTexture2D_torch")
+texture_scale = 1.6
+energy = 1.2
+script = ExtResource("2_flscr")
+
+[node name="Clues" type="Node2D" parent="."]
+
+[node name="AltarClue" type="Node2D" parent="Clues"]
+position = Vector2(-450, -50)
+
+[node name="Pedestal" type="Polygon2D" parent="Clues/AltarClue"]
+polygon = PackedVector2Array(-18, -14, 18, -14, 18, 14, -18, 14)
+color = Color(0.35, 0.2, 0.3, 1)
+
+[node name="Interactable" parent="Clues/AltarClue" instance=ExtResource("7_intscn")]
+prompt_text = "Read Cult Codex"
+
+[node name="ResearchClue" type="Node2D" parent="Clues"]
+position = Vector2(450, -50)
+
+[node name="Table" type="Polygon2D" parent="Clues/ResearchClue"]
+polygon = PackedVector2Array(-20, -12, 20, -12, 20, 12, -20, 12)
+color = Color(0.25, 0.22, 0.18, 1)
+
+[node name="Interactable" parent="Clues/ResearchClue" instance=ExtResource("7_intscn")]
+prompt_text = "Examine Burner Notes"
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="FuelPickup1" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(-200, 260)
+
+[node name="FuelPickup2" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(200, 260)
+
+[node name="FuelPickup3" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(0, -340)
+
+[node name="FuelPickup4" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(-520, 250)
+
+[node name="FuelPickup5" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(520, -250)
+
+[node name="FuelPickup6" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(-320, -160)
+
+[node name="FuelPickup7" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(320, -160)
+
+[node name="FuelPickup8" parent="Pickups" instance=ExtResource("8_fpscn")]
+position = Vector2(0, 420)
+
+[node name="HealthPickup1" parent="Pickups" instance=ExtResource("9_hpscn")]
+position = Vector2(-450, 80)
+
+[node name="HealthPickup2" parent="Pickups" instance=ExtResource("9_hpscn")]
+position = Vector2(450, 80)
+
+[node name="DemonEggBoss" parent="." instance=ExtResource("4_bosscn")]
+position = Vector2(0, -120)
+
+[node name="Player" parent="." instance=ExtResource("3_plscn")]
+position = Vector2(0, 240)
+
+[node name="HUD" parent="." instance=ExtResource("5_hudscn")]
+
+[node name="InvestigationModal" parent="." instance=ExtResource("6_modscn")]
+[node name="InventoryMenu" parent="." instance=ExtResource("12_invscn")]
+
+[node name="BossRetryLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Margin" type="MarginContainer" parent="BossRetryLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -210.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 68.0
+grow_horizontal = 0
+
+[node name="RetryBossButton" type="Button" parent="BossRetryLayer/Margin"]
+custom_minimum_size = Vector2(190, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.65, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_retry_btn")
+text = "RETRY BOSS"

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://cspoj0000000"]
+
+[ext_resource type="Script" path="res://enemies/poison_projectile.gd" id="1_pscr"]
+[ext_resource type="Texture2D" path="res://assets/effects/particles/toxic_particle.png" id="2_ptex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 12.0
+
+[node name="PoisonProjectile" type="Area2D"]
+collision_layer = 1
+collision_mask = 3
+script = ExtResource("1_pscr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_ptex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+amount = 10
+lifetime = 0.3
+texture = ExtResource("2_ptex")
+spread = 45.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 0.15
+scale_amount_max = 0.3
+color = Color(0.4, 1, 0.3, 0.8)

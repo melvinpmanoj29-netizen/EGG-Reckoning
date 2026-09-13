@@ -1,0 +1,16 @@
+========================================
+--- STAGE 3C DIAGNOSTIC VERIFICATION ---
+========================================
+
+[TEST 1] Checking Player Starting Equipment...
+  PASS: Player starts with empty hands (nozzle hidden, torch light off).
+
+[TEST 2] Checking Player & Enemy Sprite Opacity...
+  WARN: sprite.png has 3674 semi-transparent pixels (solid: 4307).
+  WARN: sprite.png has 3674 semi-transparent pixels (solid: 4307).
+  PASS: sprite.png is 100% solid opaque (solid pixels: 12972, semi-transparent: 0).
+  WARN: sprite.png has 3204 semi-transparent pixels (solid: 9144).
+  PASS: sprite.png is 100% solid opaque (solid pixels: 14557, semi-transparent: 0).
+  WARN: boss_base.png has 13784 semi-transparent pixels (solid: 85277).
+
+[TEST 3] Testing Enemy AI State Machine & Noise Listener...

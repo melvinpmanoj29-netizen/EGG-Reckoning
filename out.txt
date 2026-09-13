@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+========================================
+--- STAGE 3C DIAGNOSTIC VERIFICATION ---
+========================================
+
+[TEST 1] Checking Player Starting Equipment...
+ERROR: Can't use get_node() with absolute paths from outside the active scene tree.
+   at: get_node_or_null (scene/main/node.cpp:1910)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/stage3c_diagnose.gd:24)
+ERROR: Can't use get_node() with absolute paths from outside the active scene tree.
+   at: get_node_or_null (scene/main/node.cpp:1910)
+   GDScript backtrace (most recent call first):
+       [0] update_equipment_visuals (res://player/player.gd:70)
+       [1] _init (res://tests/stage3c_diagnose.gd:29)
+ERROR: Can't use get_node() with absolute paths from outside the active scene tree.
+   at: get_node_or_null (scene/main/node.cpp:1910)
+   GDScript backtrace (most recent call first):
+       [0] _check_has_burner (res://player/player.gd:210)
+       [1] update_equipment_visuals (res://player/player.gd:71)
+       [2] _init (res://tests/stage3c_diagnose.gd:29)
+  PASS: Player starts with empty hands (nozzle hidden, torch light off).
+
+[TEST 2] Checking Player & Enemy Sprite Opacity...
+  WARN: sprite.png has 3674 semi-transparent pixels (solid: 4307).
+  WARN: sprite.png has 3674 semi-transparent pixels (solid: 4307).
+  PASS: sprite.png is 100% solid opaque (solid pixels: 12972, semi-transparent: 0).
+  WARN: sprite.png has 3204 semi-transparent pixels (solid: 9144).
+  PASS: sprite.png is 100% solid opaque (solid pixels: 14557, semi-transparent: 0).
+  WARN: boss_base.png has 13784 semi-transparent pixels (solid: 85277).
+
+[TEST 3] Testing Enemy AI State Machine & Noise Listener...
+SCRIPT ERROR: Parse Error: Could not find base class "BaseEggEnemy".
+   at: GDScript::reload (res://enemies/minion_egg.gd:1)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/stage3c_diagnose.gd:93)
+ERROR: Failed to load script "res://enemies/minion_egg.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/stage3c_diagnose.gd:93)
+SCRIPT ERROR: Invalid access to property or key 'current_state' on a base object of type 'CharacterBody2D'.
+   at: _init (res://tests/stage3c_diagnose.gd:100)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/stage3c_diagnose.gd:100)
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)

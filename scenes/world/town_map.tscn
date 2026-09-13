@@ -1,0 +1,1047 @@
+[gd_scene load_steps=37 format=3 uid="uid://cstm00000000"]
+
+[ext_resource type="Script" path="res://scenes/world/town_map.gd" id="1_tmscr"]
+[ext_resource type="Script" path="res://scenes/world/flicker_light.gd" id="2_flscr"]
+[ext_resource type="PackedScene" uid="uid://cspl000000000" path="res://player/player.tscn" id="3_plscn"]
+[ext_resource type="PackedScene" uid="uid://cshud00000000" path="res://ui/hud.tscn" id="4_hudscn"]
+[ext_resource type="PackedScene" uid="uid://csin00000000" path="res://ui/investigation_modal.tscn" id="5_modscn"]
+[ext_resource type="PackedScene" uid="uid://csint00000000" path="res://scenes/interactables/interactable.tscn" id="6_intscn"]
+[ext_resource type="PackedScene" uid="uid://csfp00000000" path="res://scenes/pickups/fuel_pickup.tscn" id="7_fpscn"]
+[ext_resource type="PackedScene" uid="uid://cshp00000000" path="res://scenes/pickups/health_pickup.tscn" id="8_hpscn"]
+[ext_resource type="Texture2D" path="res://assets/environment/streets/asphalt.png" id="9_asptex"]
+[ext_resource type="Texture2D" path="res://assets/environment/hospital/hospital_tile.png" id="10_hsptex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/floorboards.png" id="11_woodtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/lair/cult_stone.png" id="12_clttex"]
+[ext_resource type="Texture2D" path="res://assets/props/abandoned_car.png" id="13_cartex"]
+[ext_resource type="Texture2D" path="res://assets/props/blood_splatter.png" id="14_bldtex"]
+[ext_resource type="Script" path="res://scenes/world/encounter_warning.gd" id="15_ewscr"]
+[ext_resource type="PackedScene" uid="uid://csinv00000000" path="res://ui/inventory_menu.tscn" id="16_invscn"]
+[ext_resource type="Texture2D" path="res://assets/environment/streets/sidewalk.png" id="17_sdwtex"]
+[ext_resource type="Texture2D" path="res://assets/props/street_lamp.png" id="18_slamp"]
+[ext_resource type="Texture2D" path="res://assets/props/dumpster.png" id="19_dmptex"]
+[ext_resource type="Texture2D" path="res://assets/props/trash_can.png" id="20_trstex"]
+[ext_resource type="Texture2D" path="res://assets/props/bench.png" id="21_bnctex"]
+[ext_resource type="Texture2D" path="res://assets/props/fence.png" id="22_fnctex"]
+[ext_resource type="Texture2D" path="res://assets/props/barricade.png" id="23_brctex"]
+[ext_resource type="Texture2D" path="res://assets/props/tree.png" id="24_treetex"]
+[ext_resource type="Texture2D" path="res://assets/props/bush.png" id="25_bushtex"]
+[ext_resource type="Texture2D" path="res://assets/props/egg_carton_debris.png" id="26_eggdeb"]
+[ext_resource type="Texture2D" path="res://assets/props/newspaper_debris.png" id="27_newsdeb"]
+[ext_resource type="Texture2D" path="res://assets/props/store_sign_grocery.png" id="28_sgroc"]
+[ext_resource type="Texture2D" path="res://assets/props/store_sign_pharmacy.png" id="29_spharm"]
+[ext_resource type="Texture2D" path="res://assets/props/store_sign_hardware.png" id="30_shard"]
+[ext_resource type="Texture2D" path="res://assets/props/store_sign_gas.png" id="31_sgas"]
+[ext_resource type="Texture2D" path="res://assets/props/store_sign_hospital.png" id="32_shosp"]
+[ext_resource type="Texture2D" path="res://assets/props/gas_pump.png" id="33_gpump"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/wall_tile.png" id="34_walltex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/door.png" id="35_doortex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/window.png" id="36_wintex"]
+[ext_resource type="Shader" path="res://assets/effects/shaders/fog.gdshader" id="37_fogsh"]
+[ext_resource type="PackedScene" path="res://enemies/minion_egg.tscn" id="38_minionscn"]
+[ext_resource type="PackedScene" path="res://enemies/poison_egg.tscn" id="39_poisonscn"]
+[ext_resource type="PackedScene" path="res://enemies/demon_egg_minion.tscn" id="40_demonscn"]
+
+[sub_resource type="Gradient" id="Gradient_lamp"]
+colors = PackedColorArray(1, 0.9, 0.6, 1, 0.9, 0.7, 0.3, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lamp"]
+gradient = SubResource("Gradient_lamp")
+width = 384
+height = 384
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="Gradient" id="Gradient_fluorescent"]
+colors = PackedColorArray(0.8, 0.95, 1, 1, 0.4, 0.7, 0.9, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fluorescent"]
+gradient = SubResource("Gradient_fluorescent")
+width = 384
+height = 384
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="Gradient" id="Gradient_window"]
+colors = PackedColorArray(1, 0.85, 0.5, 0.9, 0.8, 0.6, 0.2, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_window"]
+gradient = SubResource("Gradient_window")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="Gradient" id="Gradient_red"]
+colors = PackedColorArray(1, 0.2, 0.2, 1, 0.8, 0.1, 0.1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_red"]
+gradient = SubResource("Gradient_red")
+width = 320
+height = 320
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fog"]
+shader = ExtResource("37_fogsh")
+shader_parameter/fog_color = Color(0.07, 0.1, 0.15, 1)
+shader_parameter/fog_density = 0.0
+shader_parameter/drift_velocity = Vector2(0.02, 0.008)
+shader_parameter/drift_velocity2 = Vector2(-0.012, 0.015)
+shader_parameter/noise_scale = 2.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vwall"]
+size = Vector2(40, 1640)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hwall"]
+size = Vector2(2440, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_barricade"]
+size = Vector2(100, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_car"]
+size = Vector2(160, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dumpster"]
+size = Vector2(72, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bldg_small"]
+size = Vector2(260, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hosp_top"]
+size = Vector2(900, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hosp_side"]
+size = Vector2(30, 900)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hosp_vpart"]
+size = Vector2(24, 400)
+
+[node name="TownMap" type="Node2D"]
+script = ExtResource("1_tmscr")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.68, 0.62, 0.72, 1)
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="TownAsphalt" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("9_asptex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-1200, -800, 1200, -800, 1200, 800, -1200, 800)
+
+[node name="SidewalkNorth" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("17_sdwtex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-1100, -420, 100, -420, 100, -320, -1100, -320)
+
+[node name="SidewalkSouth" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("17_sdwtex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-1100, 320, 1100, 320, 1100, 420, -1100, 420)
+
+[node name="TownSquarePavement" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("17_sdwtex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-600, -220, -100, -220, -100, 220, -600, 220)
+
+[node name="HospitalFlooring" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("10_hsptex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(150, -450, 1050, -450, 1050, 450, 150, 450)
+
+[node name="BasementFlooring" type="Polygon2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("12_clttex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(600, 50, 1030, 50, 1030, 430, 600, 430)
+
+[node name="Decals" type="Node2D" parent="."]
+
+[node name="Blood1" type="Sprite2D" parent="Decals"]
+position = Vector2(-480, 120)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("14_bldtex")
+
+[node name="Blood2" type="Sprite2D" parent="Decals"]
+position = Vector2(340, 200)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("14_bldtex")
+
+[node name="Blood3" type="Sprite2D" parent="Decals"]
+position = Vector2(820, 280)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("14_bldtex")
+
+[node name="EggDebris1" type="Sprite2D" parent="Decals"]
+position = Vector2(-750, 260)
+texture = ExtResource("26_eggdeb")
+
+[node name="EggDebris2" type="Sprite2D" parent="Decals"]
+position = Vector2(-280, -180)
+texture = ExtResource("26_eggdeb")
+
+[node name="EggDebris3" type="Sprite2D" parent="Decals"]
+position = Vector2(240, -80)
+texture = ExtResource("26_eggdeb")
+
+[node name="NewsDebris1" type="Sprite2D" parent="Decals"]
+position = Vector2(-420, -50)
+texture = ExtResource("27_newsdeb")
+
+[node name="NewsDebris2" type="Sprite2D" parent="Decals"]
+position = Vector2(-620, 360)
+texture = ExtResource("27_newsdeb")
+
+[node name="NewsDebris3" type="Sprite2D" parent="Decals"]
+position = Vector2(40, -120)
+texture = ExtResource("27_newsdeb")
+
+[node name="PerimeterWalls" type="Node2D" parent="."]
+
+[node name="WallLeft" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(-1220, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallLeft"]
+shape = SubResource("RectangleShape2D_vwall")
+
+[node name="WallRight" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(1220, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallRight"]
+shape = SubResource("RectangleShape2D_vwall")
+
+[node name="WallTop" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(0, -820)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallTop"]
+shape = SubResource("RectangleShape2D_hwall")
+
+[node name="WallBottom" type="StaticBody2D" parent="PerimeterWalls"]
+position = Vector2(0, 820)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerimeterWalls/WallBottom"]
+shape = SubResource("RectangleShape2D_hwall")
+
+[node name="Buildings" type="Node2D" parent="."]
+
+[node name="PlayerHouse" type="StaticBody2D" parent="Buildings"]
+position = Vector2(-850, -540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/PlayerHouse"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/PlayerHouse"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Roof" type="Polygon2D" parent="Buildings/PlayerHouse"]
+color = Color(0.25, 0.15, 0.12, 1)
+polygon = PackedVector2Array(-135, -105, 135, -105, 125, -60, -125, -60)
+
+[node name="Window" type="Sprite2D" parent="Buildings/PlayerHouse"]
+position = Vector2(-60, 0)
+texture = ExtResource("36_wintex")
+
+[node name="Door" type="Node2D" parent="Buildings/PlayerHouse"]
+position = Vector2(0, 100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/PlayerHouse/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/PlayerHouse/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter Player's House"
+
+[node name="PorchLight" type="PointLight2D" parent="Buildings/PlayerHouse"]
+position = Vector2(0, 90)
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.0
+script = ExtResource("2_flscr")
+base_energy = 0.7
+flicker_mode = 0
+is_night_only = true
+
+[node name="HendersonHouse" type="StaticBody2D" parent="Buildings"]
+position = Vector2(-500, -540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/HendersonHouse"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/HendersonHouse"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Roof" type="Polygon2D" parent="Buildings/HendersonHouse"]
+color = Color(0.2, 0.22, 0.28, 1)
+polygon = PackedVector2Array(-135, -105, 135, -105, 125, -60, -125, -60)
+
+[node name="Window" type="Sprite2D" parent="Buildings/HendersonHouse"]
+position = Vector2(-60, 0)
+texture = ExtResource("36_wintex")
+
+[node name="Door" type="Node2D" parent="Buildings/HendersonHouse"]
+position = Vector2(0, 100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/HendersonHouse/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/HendersonHouse/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter Henderson Residence"
+
+[node name="WindowLight" type="PointLight2D" parent="Buildings/HendersonHouse"]
+position = Vector2(-60, 0)
+texture = SubResource("GradientTexture2D_window")
+texture_scale = 1.1
+script = ExtResource("2_flscr")
+base_energy = 0.85
+flicker_mode = 1
+is_night_only = true
+
+[node name="MillerHouse" type="StaticBody2D" parent="Buildings"]
+position = Vector2(-150, -540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/MillerHouse"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/MillerHouse"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Roof" type="Polygon2D" parent="Buildings/MillerHouse"]
+color = Color(0.18, 0.25, 0.18, 1)
+polygon = PackedVector2Array(-135, -105, 135, -105, 125, -60, -125, -60)
+
+[node name="Window" type="Sprite2D" parent="Buildings/MillerHouse"]
+position = Vector2(60, 0)
+texture = ExtResource("36_wintex")
+
+[node name="Door" type="Node2D" parent="Buildings/MillerHouse"]
+position = Vector2(0, 100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/MillerHouse/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/MillerHouse/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter Miller Residence"
+
+[node name="GroceryStore" type="StaticBody2D" parent="Buildings"]
+position = Vector2(-850, 540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/GroceryStore"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/GroceryStore"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Sign" type="Sprite2D" parent="Buildings/GroceryStore"]
+position = Vector2(0, -120)
+texture = ExtResource("28_sgroc")
+
+[node name="Door" type="Node2D" parent="Buildings/GroceryStore"]
+position = Vector2(0, -100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/GroceryStore/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/GroceryStore/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter FreshMart Grocery Store"
+
+[node name="PharmacyStore" type="StaticBody2D" parent="Buildings"]
+position = Vector2(-550, 540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/PharmacyStore"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/PharmacyStore"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Sign" type="Sprite2D" parent="Buildings/PharmacyStore"]
+position = Vector2(0, -120)
+texture = ExtResource("29_spharm")
+
+[node name="Door" type="Node2D" parent="Buildings/PharmacyStore"]
+position = Vector2(0, -100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/PharmacyStore/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/PharmacyStore/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter CarePlus Pharmacy"
+
+[node name="NeonLight" type="PointLight2D" parent="Buildings/PharmacyStore"]
+position = Vector2(0, -110)
+color = Color(0.4, 0.95, 0.75, 1)
+texture = SubResource("GradientTexture2D_fluorescent")
+texture_scale = 1.1
+script = ExtResource("2_flscr")
+base_energy = 0.9
+flicker_mode = 1
+is_night_only = true
+
+[node name="HardwareStore" type="StaticBody2D" parent="Buildings"]
+position = Vector2(-250, 540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/HardwareStore"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/HardwareStore"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Sign" type="Sprite2D" parent="Buildings/HardwareStore"]
+position = Vector2(0, -120)
+texture = ExtResource("30_shard")
+
+[node name="Door" type="Node2D" parent="Buildings/HardwareStore"]
+position = Vector2(0, -100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/HardwareStore/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/HardwareStore/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter Harborvale Hardware & Tool Supply"
+
+[node name="GasStation" type="StaticBody2D" parent="Buildings"]
+position = Vector2(900, 540)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings/GasStation"]
+shape = SubResource("RectangleShape2D_bldg_small")
+
+[node name="Facade" type="Polygon2D" parent="Buildings/GasStation"]
+texture_repeat = 2
+texture = ExtResource("34_walltex")
+polygon = PackedVector2Array(-130, -100, 130, -100, 130, 100, -130, 100)
+
+[node name="Sign" type="Sprite2D" parent="Buildings/GasStation"]
+position = Vector2(0, -120)
+texture = ExtResource("31_sgas")
+
+[node name="Pump1" type="Sprite2D" parent="Buildings/GasStation"]
+position = Vector2(-60, -140)
+texture = ExtResource("33_gpump")
+
+[node name="Pump2" type="Sprite2D" parent="Buildings/GasStation"]
+position = Vector2(60, -140)
+texture = ExtResource("33_gpump")
+
+[node name="Door" type="Node2D" parent="Buildings/GasStation"]
+position = Vector2(0, -100)
+
+[node name="DoorSprite" type="Sprite2D" parent="Buildings/GasStation/Door"]
+texture = ExtResource("35_doortex")
+
+[node name="Interactable" parent="Buildings/GasStation/Door" instance=ExtResource("6_intscn")]
+prompt_text = "Enter Valley Gas & Fuel Service"
+
+[node name="CanopyLight" type="PointLight2D" parent="Buildings/GasStation"]
+position = Vector2(0, -140)
+color = Color(1, 0.9, 0.7, 1)
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.6
+script = ExtResource("2_flscr")
+base_energy = 1.0
+flicker_mode = 1
+is_night_only = true
+
+[node name="TownSquare" type="Node2D" parent="."]
+
+[node name="TownSign" type="Sprite2D" parent="TownSquare"]
+position = Vector2(140, -480)
+texture = ExtResource("32_shosp")
+
+[node name="Barricade1" type="StaticBody2D" parent="TownSquare"]
+position = Vector2(-300, -250)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TownSquare/Barricade1"]
+shape = SubResource("RectangleShape2D_barricade")
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/Barricade1"]
+texture = ExtResource("23_brctex")
+
+[node name="Barricade2" type="StaticBody2D" parent="TownSquare"]
+position = Vector2(-300, 250)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TownSquare/Barricade2"]
+shape = SubResource("RectangleShape2D_barricade")
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/Barricade2"]
+texture = ExtResource("23_brctex")
+
+[node name="Dumpster1" type="StaticBody2D" parent="TownSquare"]
+position = Vector2(-700, -320)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TownSquare/Dumpster1"]
+shape = SubResource("RectangleShape2D_dumpster")
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/Dumpster1"]
+texture = ExtResource("19_dmptex")
+
+[node name="Dumpster2" type="StaticBody2D" parent="TownSquare"]
+position = Vector2(-400, 320)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TownSquare/Dumpster2"]
+shape = SubResource("RectangleShape2D_dumpster")
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/Dumpster2"]
+texture = ExtResource("19_dmptex")
+
+[node name="Bench1" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-450, 0)
+texture = ExtResource("21_bnctex")
+
+[node name="Bench2" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-250, 0)
+texture = ExtResource("21_bnctex")
+
+[node name="TrashCan1" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-520, 0)
+texture = ExtResource("20_trstex")
+
+[node name="TrashCan2" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-180, 0)
+texture = ExtResource("20_trstex")
+
+[node name="Fence1" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-1020, -380)
+texture = ExtResource("22_fnctex")
+
+[node name="Fence2" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-1020, 380)
+texture = ExtResource("22_fnctex")
+
+[node name="Tree1" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-1100, -150)
+texture = ExtResource("24_treetex")
+
+[node name="Tree2" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-1100, 150)
+texture = ExtResource("24_treetex")
+
+[node name="Tree3" type="Sprite2D" parent="TownSquare"]
+position = Vector2(0, -600)
+texture = ExtResource("24_treetex")
+
+[node name="Bush1" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-350, -500)
+texture = ExtResource("25_bushtex")
+
+[node name="Bush2" type="Sprite2D" parent="TownSquare"]
+position = Vector2(-700, 480)
+texture = ExtResource("25_bushtex")
+
+[node name="AbandonedCar1" type="StaticBody2D" parent="TownSquare"]
+position = Vector2(-650, 180)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TownSquare/AbandonedCar1"]
+shape = SubResource("RectangleShape2D_car")
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/AbandonedCar1"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("13_cartex")
+
+[node name="AbandonedCar2" type="StaticBody2D" parent="TownSquare"]
+position = Vector2(-450, -80)
+rotation = -0.3
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TownSquare/AbandonedCar2"]
+shape = SubResource("RectangleShape2D_car")
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/AbandonedCar2"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("13_cartex")
+
+[node name="StreetLamp1" type="Node2D" parent="TownSquare"]
+position = Vector2(-700, -200)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLamp1"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLamp1"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.8
+script = ExtResource("2_flscr")
+base_energy = 1.1
+flicker_mode = 1
+is_night_only = true
+
+[node name="StreetLamp2" type="Node2D" parent="TownSquare"]
+position = Vector2(-200, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLamp2"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLamp2"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.8
+script = ExtResource("2_flscr")
+base_energy = 1.1
+flicker_mode = 0
+is_night_only = true
+
+[node name="StreetLamp3" type="Node2D" parent="TownSquare"]
+position = Vector2(100, 200)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLamp3"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLamp3"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.8
+script = ExtResource("2_flscr")
+base_energy = 1.1
+flicker_mode = 1
+is_night_only = true
+
+[node name="StreetLampNorthWest" type="Node2D" parent="TownSquare"]
+position = Vector2(-950, -320)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLampNorthWest"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLampNorthWest"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.7
+script = ExtResource("2_flscr")
+base_energy = 1.0
+flicker_mode = 0
+is_night_only = true
+
+[node name="StreetLampNorthMid" type="Node2D" parent="TownSquare"]
+position = Vector2(-350, -320)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLampNorthMid"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLampNorthMid"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.7
+script = ExtResource("2_flscr")
+base_energy = 1.0
+flicker_mode = 1
+is_night_only = true
+
+[node name="StreetLampSouthWest" type="Node2D" parent="TownSquare"]
+position = Vector2(-850, 320)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLampSouthWest"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLampSouthWest"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.7
+script = ExtResource("2_flscr")
+base_energy = 1.0
+flicker_mode = 0
+is_night_only = true
+
+[node name="StreetLampSouthMid" type="Node2D" parent="TownSquare"]
+position = Vector2(-400, 320)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLampSouthMid"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLampSouthMid"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.7
+script = ExtResource("2_flscr")
+base_energy = 1.0
+flicker_mode = 1
+is_night_only = true
+
+[node name="StreetLampSouthEast" type="Node2D" parent="TownSquare"]
+position = Vector2(200, 320)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLampSouthEast"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLampSouthEast"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.7
+script = ExtResource("2_flscr")
+base_energy = 1.0
+flicker_mode = 0
+is_night_only = true
+
+[node name="StreetLampGasStation" type="Node2D" parent="TownSquare"]
+position = Vector2(800, 380)
+
+[node name="Sprite2D" type="Sprite2D" parent="TownSquare/StreetLampGasStation"]
+texture = ExtResource("18_slamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="TownSquare/StreetLampGasStation"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.8
+script = ExtResource("2_flscr")
+base_energy = 1.1
+flicker_mode = 1
+is_night_only = true
+
+[node name="TownNoticeBoard" type="Node2D" parent="TownSquare"]
+position = Vector2(-550, -180)
+
+[node name="BoardPoly" type="Polygon2D" parent="TownSquare/TownNoticeBoard"]
+polygon = PackedVector2Array(-20, -14, 20, -14, 20, 14, -20, 14)
+color = Color(0.55, 0.4, 0.2, 1)
+
+[node name="Interactable" parent="TownSquare/TownNoticeBoard" instance=ExtResource("6_intscn")]
+prompt_text = "Read Town Evacuation Notice"
+
+[node name="Hospital" type="Node2D" parent="."]
+
+[node name="HospitalEntranceLamp" type="PointLight2D" parent="Hospital"]
+position = Vector2(140, 0)
+texture = SubResource("GradientTexture2D_fluorescent")
+texture_scale = 1.8
+color = Color(0.85, 0.95, 1, 1)
+script = ExtResource("2_flscr")
+base_energy = 1.15
+flicker_mode = 2
+is_night_only = true
+
+[node name="HospWallTop" type="StaticBody2D" parent="Hospital"]
+position = Vector2(600, -460)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/HospWallTop"]
+shape = SubResource("RectangleShape2D_hosp_top")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/HospWallTop"]
+polygon = PackedVector2Array(-450, -15, 450, -15, 450, 15, -450, 15)
+color = Color(0.3, 0.35, 0.38, 1)
+
+[node name="HospWallBottom" type="StaticBody2D" parent="Hospital"]
+position = Vector2(600, 460)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/HospWallBottom"]
+shape = SubResource("RectangleShape2D_hosp_top")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/HospWallBottom"]
+polygon = PackedVector2Array(-450, -15, 450, -15, 450, 15, -450, 15)
+color = Color(0.3, 0.35, 0.38, 1)
+
+[node name="HospWallRight" type="StaticBody2D" parent="Hospital"]
+position = Vector2(1060, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/HospWallRight"]
+shape = SubResource("RectangleShape2D_hosp_side")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/HospWallRight"]
+polygon = PackedVector2Array(-15, -450, 15, -450, 15, 450, -15, 450)
+color = Color(0.3, 0.35, 0.38, 1)
+
+[node name="HospWallLeftUpper" type="StaticBody2D" parent="Hospital"]
+position = Vector2(140, -280)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/HospWallLeftUpper"]
+shape = SubResource("RectangleShape2D_hosp_vpart")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/HospWallLeftUpper"]
+polygon = PackedVector2Array(-12, -200, 12, -200, 12, 200, -12, 200)
+color = Color(0.3, 0.35, 0.38, 1)
+
+[node name="HospWallLeftLower" type="StaticBody2D" parent="Hospital"]
+position = Vector2(140, 280)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/HospWallLeftLower"]
+shape = SubResource("RectangleShape2D_hosp_vpart")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/HospWallLeftLower"]
+polygon = PackedVector2Array(-12, -200, 12, -200, 12, 200, -12, 200)
+color = Color(0.3, 0.35, 0.38, 1)
+
+[node name="DividerWallUpper" type="StaticBody2D" parent="Hospital"]
+position = Vector2(580, -280)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/DividerWallUpper"]
+shape = SubResource("RectangleShape2D_hosp_vpart")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/DividerWallUpper"]
+polygon = PackedVector2Array(-12, -200, 12, -200, 12, 200, -12, 200)
+color = Color(0.28, 0.32, 0.35, 1)
+
+[node name="DividerWallLower" type="StaticBody2D" parent="Hospital"]
+position = Vector2(580, 280)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hospital/DividerWallLower"]
+shape = SubResource("RectangleShape2D_hosp_vpart")
+
+[node name="Visual" type="Polygon2D" parent="Hospital/DividerWallLower"]
+polygon = PackedVector2Array(-12, -200, 12, -200, 12, 200, -12, 200)
+color = Color(0.28, 0.32, 0.35, 1)
+
+[node name="RecordsRoom" type="Node2D" parent="Hospital"]
+position = Vector2(360, -280)
+
+[node name="HospitalLight1" type="PointLight2D" parent="Hospital/RecordsRoom"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.4
+script = ExtResource("2_flscr")
+base_energy = 0.95
+flicker_mode = 2
+active_at_dusk = true
+
+[node name="MedicalRecords" type="Node2D" parent="Hospital/RecordsRoom"]
+
+[node name="Desk" type="Polygon2D" parent="Hospital/RecordsRoom/MedicalRecords"]
+polygon = PackedVector2Array(-25, -16, 25, -16, 25, 16, -25, 16)
+color = Color(0.3, 0.22, 0.16, 1)
+
+[node name="Folder" type="Polygon2D" parent="Hospital/RecordsRoom/MedicalRecords"]
+polygon = PackedVector2Array(-10, -8, 10, -8, 10, 8, -10, 8)
+color = Color(0.9, 0.85, 0.7, 1)
+
+[node name="Interactable" parent="Hospital/RecordsRoom/MedicalRecords" instance=ExtResource("6_intscn")]
+prompt_text = "Read Medical Records Archive"
+
+[node name="PatientRoom1" type="Node2D" parent="Hospital"]
+position = Vector2(360, -100)
+
+[node name="Bed" type="Polygon2D" parent="Hospital/PatientRoom1"]
+polygon = PackedVector2Array(-35, -20, 35, -20, 35, 20, -35, 20)
+color = Color(0.75, 0.8, 0.82, 1)
+
+[node name="Pillow" type="Polygon2D" parent="Hospital/PatientRoom1/Bed"]
+polygon = PackedVector2Array(-30, -16, -15, -16, -15, 16, -30, 16)
+color = Color(0.9, 0.92, 0.95, 1)
+
+[node name="Chart" type="Node2D" parent="Hospital/PatientRoom1"]
+position = Vector2(45, 0)
+
+[node name="Folder" type="Polygon2D" parent="Hospital/PatientRoom1/Chart"]
+polygon = PackedVector2Array(-8, -10, 8, -10, 8, 10, -8, 10)
+color = Color(0.85, 0.8, 0.65, 1)
+
+[node name="Interactable" parent="Hospital/PatientRoom1/Chart" instance=ExtResource("6_intscn")]
+prompt_text = "Read Patient 01 Chart (Arthur Henderson)"
+
+[node name="PatientRoom2" type="Node2D" parent="Hospital"]
+position = Vector2(360, 100)
+
+[node name="Bed" type="Polygon2D" parent="Hospital/PatientRoom2"]
+polygon = PackedVector2Array(-35, -20, 35, -20, 35, 20, -35, 20)
+color = Color(0.7, 0.75, 0.76, 1)
+
+[node name="IVStand" type="Polygon2D" parent="Hospital/PatientRoom2"]
+position = Vector2(-42, -18)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+color = Color(0.85, 0.85, 0.9, 1)
+
+[node name="ToxicologyChart" type="Node2D" parent="Hospital/PatientRoom2"]
+position = Vector2(45, 0)
+
+[node name="Folder" type="Polygon2D" parent="Hospital/PatientRoom2/ToxicologyChart"]
+polygon = PackedVector2Array(-8, -10, 8, -10, 8, 10, -8, 10)
+color = Color(0.65, 0.85, 0.7, 1)
+
+[node name="Interactable" parent="Hospital/PatientRoom2/ToxicologyChart" instance=ExtResource("6_intscn")]
+prompt_text = "Examine Patient 02 Toxicology Report"
+
+[node name="SecurityRoom" type="Node2D" parent="Hospital"]
+position = Vector2(360, 280)
+
+[node name="HospitalLight2" type="PointLight2D" parent="Hospital/SecurityRoom"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.4
+script = ExtResource("2_flscr")
+base_energy = 0.85
+flicker_mode = 0
+active_at_dusk = true
+
+[node name="CCTVConsole" type="Node2D" parent="Hospital/SecurityRoom"]
+
+[node name="Desk" type="Polygon2D" parent="Hospital/SecurityRoom/CCTVConsole"]
+polygon = PackedVector2Array(-28, -18, 28, -18, 28, 18, -28, 18)
+color = Color(0.2, 0.2, 0.24, 1)
+
+[node name="Monitor" type="Polygon2D" parent="Hospital/SecurityRoom/CCTVConsole"]
+polygon = PackedVector2Array(-18, -12, 18, -12, 18, 2, -18, 2)
+color = Color(0.15, 0.45, 0.35, 1)
+
+[node name="Interactable" parent="Hospital/SecurityRoom/CCTVConsole" instance=ExtResource("6_intscn")]
+prompt_text = "Check CCTV Surveillance"
+
+[node name="PatientRoom3" type="Node2D" parent="Hospital"]
+position = Vector2(820, -240)
+
+[node name="IsolationBed" type="Polygon2D" parent="Hospital/PatientRoom3"]
+polygon = PackedVector2Array(-35, -20, 35, -20, 35, 20, -35, 20)
+color = Color(0.55, 0.65, 0.68, 1)
+
+[node name="HazardBarrier" type="Polygon2D" parent="Hospital/PatientRoom3"]
+polygon = PackedVector2Array(-50, -30, 50, -30, 50, -26, -50, -26)
+color = Color(0.9, 0.75, 0.1, 1)
+
+[node name="DischargeLog" type="Node2D" parent="Hospital/PatientRoom3"]
+position = Vector2(45, 0)
+
+[node name="Folder" type="Polygon2D" parent="Hospital/PatientRoom3/DischargeLog"]
+polygon = PackedVector2Array(-8, -10, 8, -10, 8, 10, -8, 10)
+color = Color(0.9, 0.65, 0.65, 1)
+
+[node name="Interactable" parent="Hospital/PatientRoom3/DischargeLog" instance=ExtResource("6_intscn")]
+prompt_text = "Read Patient 03 Quarantine Log"
+
+[node name="QuarantineVault" type="Node2D" parent="Hospital"]
+position = Vector2(820, 240)
+
+[node name="RedWarningLight" type="PointLight2D" parent="Hospital/QuarantineVault"]
+texture = SubResource("GradientTexture2D_red")
+texture_scale = 1.8
+energy = 1.4
+script = ExtResource("2_flscr")
+base_energy = 1.4
+flicker_mode = 3
+active_at_dusk = true
+
+[node name="DemonEgg" type="Node2D" parent="Hospital/QuarantineVault"]
+
+[node name="EggAura" type="Polygon2D" parent="Hospital/QuarantineVault/DemonEgg"]
+polygon = PackedVector2Array(0, -56, 36, -35, 46, 15, 28, 48, 0, 60, -28, 48, -46, 15, -36, -35)
+color = Color(0.8, 0.1, 0.15, 0.35)
+
+[node name="EggBody" type="Polygon2D" parent="Hospital/QuarantineVault/DemonEgg"]
+polygon = PackedVector2Array(0, -48, 30, -30, 38, 12, 24, 40, 0, 50, -24, 40, -38, 12, -30, -30)
+color = Color(0.4, 0.05, 0.08, 1)
+
+[node name="CoreGlow" type="Polygon2D" parent="Hospital/QuarantineVault/DemonEgg"]
+polygon = PackedVector2Array(0, -20, 16, -10, 18, 8, 0, 20, -18, 8, -16, -10)
+color = Color(1.0, 0.3, 0.1, 0.85)
+
+[node name="Interactable" parent="Hospital/QuarantineVault/DemonEgg" instance=ExtResource("6_intscn")]
+prompt_text = "Examine Demon Egg"
+
+[node name="LairPortal" type="Node2D" parent="Hospital/QuarantineVault"]
+position = Vector2(0, 100)
+
+[node name="HatchPoly" type="Polygon2D" parent="Hospital/QuarantineVault/LairPortal"]
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+color = Color(0.2, 0.05, 0.25, 1)
+
+[node name="HatchRim" type="Polygon2D" parent="Hospital/QuarantineVault/LairPortal"]
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+color = Color(0.08, 0.02, 0.1, 1)
+
+[node name="Interactable" parent="Hospital/QuarantineVault/LairPortal" instance=ExtResource("6_intscn")]
+prompt_text = "Enter Egg Society Lair"
+is_active = false
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="FuelPickup1" parent="Pickups" instance=ExtResource("7_fpscn")]
+position = Vector2(-450, 120)
+
+[node name="FuelPickup2" parent="Pickups" instance=ExtResource("7_fpscn")]
+position = Vector2(250, -100)
+
+[node name="FuelPickup3" parent="Pickups" instance=ExtResource("7_fpscn")]
+position = Vector2(750, -200)
+
+[node name="FuelPickup4" parent="Pickups" instance=ExtResource("7_fpscn")]
+position = Vector2(-850, 480)
+
+[node name="HealthPickup1" parent="Pickups" instance=ExtResource("8_hpscn")]
+position = Vector2(-600, -150)
+
+[node name="HealthPickup2" parent="Pickups" instance=ExtResource("8_hpscn")]
+position = Vector2(280, 100)
+
+[node name="HealthPickup3" parent="Pickups" instance=ExtResource("8_hpscn")]
+position = Vector2(-850, -600)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="CrawlingAlleyNorth1" parent="Enemies" instance=ExtResource("38_minionscn")]
+position = Vector2(-650, -450)
+patrol_points = PackedVector2Array(-650, -480, -650, -320)
+
+[node name="CrawlingAlleyNorth2" parent="Enemies" instance=ExtResource("38_minionscn")]
+position = Vector2(-325, -450)
+patrol_points = PackedVector2Array(-325, -480, -325, -320)
+
+[node name="PoisonTownSquare" parent="Enemies" instance=ExtResource("39_poisonscn")]
+position = Vector2(-350, 0)
+patrol_points = PackedVector2Array(-450, 50, -250, -50)
+
+[node name="DemonMinionAlleySouth" parent="Enemies" instance=ExtResource("40_demonscn")]
+position = Vector2(-700, 480)
+patrol_points = PackedVector2Array(-750, 480, -600, 480)
+
+[node name="CrawlingGasStation" parent="Enemies" instance=ExtResource("38_minionscn")]
+position = Vector2(850, 450)
+patrol_points = PackedVector2Array(750, 420, 950, 420)
+
+[node name="PoisonHospitalGrounds" parent="Enemies" instance=ExtResource("39_poisonscn")]
+position = Vector2(150, -300)
+patrol_points = PackedVector2Array(100, -350, 250, -250)
+
+[node name="DemonMinionHospitalCorridor" parent="Enemies" instance=ExtResource("40_demonscn")]
+position = Vector2(360, 0)
+patrol_points = PackedVector2Array(360, -150, 360, 150)
+
+[node name="CrawlingHospitalIsolation" parent="Enemies" instance=ExtResource("38_minionscn")]
+position = Vector2(700, -280)
+patrol_points = PackedVector2Array(650, -280, 850, -280)
+
+[node name="FogOverlay" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="FogRect" type="ColorRect" parent="FogOverlay"]
+material = SubResource("ShaderMaterial_fog")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Player" parent="." instance=ExtResource("3_plscn")]
+position = Vector2(-800, 0)
+
+[node name="HUD" parent="." instance=ExtResource("4_hudscn")]
+
+[node name="InvestigationModal" parent="." instance=ExtResource("5_modscn")]
+
+[node name="EncounterWarning" type="Node" parent="."]
+script = ExtResource("15_ewscr")
+canvas_modulate_path = NodePath("../CanvasModulate")
+
+[node name="InventoryMenu" parent="." instance=ExtResource("16_invscn")]

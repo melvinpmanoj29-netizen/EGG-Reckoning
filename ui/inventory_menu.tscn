@@ -1,0 +1,309 @@
+[gd_scene format=3 uid="uid://csinv00000000"]
+
+[ext_resource type="Script" path="res://ui/inventory_menu.gd" id="1_invscr"]
+[ext_resource type="Texture2D" path="res://assets/items/burner_icon.png" id="2_brnic"]
+[ext_resource type="Texture2D" path="res://assets/items/flashlight_icon.png" id="3_flshic"]
+[ext_resource type="Texture2D" path="res://assets/items/medkit.png" id="4_medtex"]
+[ext_resource type="Texture2D" path="res://assets/items/fuel_canister.png" id="5_fueltex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inv_panel"]
+bg_color = Color(0.08, 0.08, 0.11, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.4, 0.45, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="InventoryMenu" type="CanvasLayer"]
+layer = 105
+script = ExtResource("1_invscr")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.02, 0.04, 0.82)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(760, 480)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_inv_panel")
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Center/PanelContainer/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+text = "INVESTIGATOR FIELD GEAR & INVENTORY"
+
+[node name="Spacer" type="Control" parent="Center/PanelContainer/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HintLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.7, 1)
+theme_override_font_sizes/font_size = 13
+text = "[TAB] or [ESC] to Close"
+
+[node name="ContentHBox" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="EquipVBox" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="EquipHeader" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 14
+text = "PRIMARY HARDWARE"
+
+[node name="BurnerCard" type="PanelContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin/HBox"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("2_brnic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "INCENDIARY BURNER"
+
+[node name="StatusLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "[ READY ] - Incendiary Weapon"
+
+[node name="FuelBar" type="ProgressBar" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin/HBox/VBox"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+show_percentage = false
+
+[node name="FuelLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/BurnerCard/Margin/HBox/VBox/FuelBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Tank: 100%"
+horizontal_alignment = 1
+
+[node name="TorchCard" type="PanelContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard/Margin/HBox"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("3_flshic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TACTICAL FLASHLIGHT"
+
+[node name="StatusLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "[ ACQUIRED ] - Night Illumination"
+
+[node name="TorchToggleBtn" type="Button" parent="Center/PanelContainer/Margin/VBox/ContentHBox/EquipVBox/TorchCard/Margin/HBox"]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 12
+text = "Toggle [F]"
+
+[node name="SuppliesVBox" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="SuppliesHeader" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 14
+text = "FIELD SUPPLIES & EVIDENCE"
+
+[node name="MedkitCard" type="PanelContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/MedkitCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="HBox" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/MedkitCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/MedkitCard/Margin/HBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("4_medtex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/MedkitCard/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "First Aid Medkit"
+
+[node name="CountLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/MedkitCard/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.9, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Carrying: 1"
+
+[node name="UseMedkitBtn" type="Button" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/MedkitCard/Margin/HBox"]
+custom_minimum_size = Vector2(70, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Use [Q]"
+
+[node name="FuelCanCard" type="PanelContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/FuelCanCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="HBox" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/FuelCanCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/FuelCanCard/Margin/HBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("5_fueltex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/FuelCanCard/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Fuel Canister"
+
+[node name="CountLabel" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/FuelCanCard/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "Carrying: 2"
+
+[node name="RefuelBtn" type="Button" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/FuelCanCard/Margin/HBox"]
+custom_minimum_size = Vector2(70, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Refuel [R]"
+
+[node name="DocsCard" type="PanelContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/DocsCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/DocsCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DocsHeader" type="Label" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/DocsCard/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "COLLECTED DOCUMENTS & CLUES:"
+
+[node name="DocsList" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBox/ContentHBox/SuppliesVBox/DocsCard/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="BottomBar" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="CloseBtn" type="Button" parent="Center/PanelContainer/Margin/VBox/BottomBar"]
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Close [Tab / Esc]"

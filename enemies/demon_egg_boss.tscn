@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://csdb00000000"]
+
+[ext_resource type="Script" path="res://enemies/demon_egg_boss.gd" id="1_dbscr"]
+[ext_resource type="Texture2D" path="res://assets/enemies/boss/boss_base.png" id="2_bossspr"]
+[ext_resource type="Texture2D" path="res://assets/effects/particles/shard_particle.png" id="3_shrdpt"]
+[ext_resource type="Texture2D" path="res://assets/effects/particles/flame_particle.png" id="4_flmpt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 65.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
+radius = 68.0
+
+[sub_resource type="Gradient" id="Gradient_boss_light"]
+colors = PackedColorArray(1, 0.2, 0.4, 1, 0.6, 0.05, 0.3, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_boss"]
+gradient = SubResource("Gradient_boss_light")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[node name="DemonEggBoss" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 3
+script = ExtResource("1_dbscr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="BossSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("2_bossspr")
+
+[node name="BossAuraLight" type="PointLight2D" parent="."]
+energy = 1.6
+texture = SubResource("GradientTexture2D_boss")
+texture_scale = 1.8
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_hitbox")
+
+[node name="PhaseParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 30
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource("4_flmpt")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 280.0
+scale_amount_min = 0.5
+scale_amount_max = 1.5
+
+[node name="DeathShards" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 50
+lifetime = 1.2
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("3_shrdpt")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 400.0
+scale_amount_min = 0.8
+scale_amount_max = 2.0

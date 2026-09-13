@@ -1,0 +1,181 @@
+[gd_scene load_steps=25 format=3 uid="uid://csmh00000000"]
+
+[ext_resource type="Script" path="res://scenes/interiors/house_miller.gd" id="1_mhscr"]
+[ext_resource type="PackedScene" uid="uid://cspl000000000" path="res://player/player.tscn" id="2_plscn"]
+[ext_resource type="PackedScene" uid="uid://cshud00000000" path="res://ui/hud.tscn" id="3_hudscn"]
+[ext_resource type="PackedScene" uid="uid://csin00000000" path="res://ui/investigation_modal.tscn" id="4_modscn"]
+[ext_resource type="PackedScene" uid="uid://csinv00000000" path="res://ui/inventory_menu.tscn" id="5_invscn"]
+[ext_resource type="PackedScene" uid="uid://csint00000000" path="res://scenes/interactables/interactable.tscn" id="6_intscn"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/floorboards.png" id="7_woodtex"]
+[ext_resource type="Script" path="res://scenes/world/flicker_light.gd" id="8_flscr"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/desk.png" id="9_desktex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/tv.png" id="10_tvtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/storage_box.png" id="11_stortex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/door.png" id="12_doortex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/rug.png" id="13_rugtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/wall_tile.png" id="14_walltex"]
+[ext_resource type="Texture2D" path="res://assets/props/newspaper_debris.png" id="15_newstex"]
+
+[sub_resource type="Gradient" id="Gradient_lamp"]
+colors = PackedColorArray(1, 0.85, 0.5, 1, 0.9, 0.6, 0.2, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lamp"]
+gradient = SubResource("Gradient_lamp")
+width = 340
+height = 340
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(760, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(24, 460)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_desk"]
+size = Vector2(98, 54)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tv"]
+size = Vector2(58, 48)
+
+[node name="HouseMiller" type="Node2D"]
+script = ExtResource("1_mhscr")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.62, 0.58, 0.7, 1)
+
+[node name="Flooring" type="Polygon2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("7_woodtex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-360, -220, 360, -220, 360, 220, -360, 220)
+
+[node name="Rug" type="Sprite2D" parent="."]
+position = Vector2(0, 10)
+texture = ExtResource("13_rugtex")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallNorth" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -220)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallNorth"]
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallNorth"]
+texture_repeat = 2
+texture = ExtResource("14_walltex")
+polygon = PackedVector2Array(-370, -12, 370, -12, 370, 12, -370, 12)
+
+[node name="WallSouthLeft" type="StaticBody2D" parent="Walls"]
+position = Vector2(-210, 220)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallSouthLeft"]
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallSouthLeft"]
+texture_repeat = 2
+texture = ExtResource("14_walltex")
+polygon = PackedVector2Array(-170, -12, 170, -12, 170, 12, -170, 12)
+
+[node name="WallSouthRight" type="StaticBody2D" parent="Walls"]
+position = Vector2(210, 220)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallSouthRight"]
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallSouthRight"]
+texture_repeat = 2
+texture = ExtResource("14_walltex")
+polygon = PackedVector2Array(-170, -12, 170, -12, 170, 12, -170, 12)
+
+[node name="WallWest" type="StaticBody2D" parent="Walls"]
+position = Vector2(-360, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallWest"]
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallWest"]
+texture_repeat = 2
+texture = ExtResource("14_walltex")
+polygon = PackedVector2Array(-12, -230, 12, -230, 12, 230, -12, 230)
+
+[node name="WallEast" type="StaticBody2D" parent="Walls"]
+position = Vector2(360, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallEast"]
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallEast"]
+texture_repeat = 2
+texture = ExtResource("14_walltex")
+polygon = PackedVector2Array(-12, -230, 12, -230, 12, 230, -12, 230)
+
+[node name="Table" type="StaticBody2D" parent="."]
+position = Vector2(0, -150)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Table"]
+shape = SubResource("RectangleShape2D_desk")
+
+[node name="TableSprite" type="Sprite2D" parent="Table"]
+texture = ExtResource("9_desktex")
+
+[node name="Lamp" type="PointLight2D" parent="Table"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.4
+energy = 1.2
+script = ExtResource("8_flscr")
+
+[node name="Newspaper" type="Node2D" parent="Table"]
+
+[node name="NewsSprite" type="Sprite2D" parent="Table/Newspaper"]
+position = Vector2(10, 0)
+texture = ExtResource("15_newstex")
+
+[node name="Interactable" parent="Table/Newspaper" instance=ExtResource("6_intscn")]
+prompt_text = "Read Emergency Newspaper"
+
+[node name="Radio" type="StaticBody2D" parent="."]
+position = Vector2(250, -140)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Radio"]
+shape = SubResource("RectangleShape2D_tv")
+
+[node name="RadioSprite" type="Sprite2D" parent="Radio"]
+texture = ExtResource("10_tvtex")
+
+[node name="Interactable" parent="Radio" instance=ExtResource("6_intscn")]
+prompt_text = "Listen to Emergency Radio"
+
+[node name="Supplies" type="StaticBody2D" parent="."]
+position = Vector2(-260, -140)
+collision_layer = 1
+
+[node name="StorageSprite" type="Sprite2D" parent="Supplies"]
+texture = ExtResource("11_stortex")
+
+[node name="ExitDoor" type="Node2D" parent="."]
+position = Vector2(0, 210)
+
+[node name="DoorSprite" type="Sprite2D" parent="ExitDoor"]
+texture = ExtResource("12_doortex")
+
+[node name="Interactable" parent="ExitDoor" instance=ExtResource("6_intscn")]
+prompt_text = "Exit to Town Street"
+
+[node name="Player" parent="." instance=ExtResource("2_plscn")]
+position = Vector2(0, 130)
+
+[node name="HUD" parent="." instance=ExtResource("3_hudscn")]
+
+[node name="InvestigationModal" parent="." instance=ExtResource("4_modscn")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("5_invscn")]

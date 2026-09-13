@@ -1,0 +1,116 @@
+[gd_scene load_steps=10 format=3 uid="uid://cspl000000000"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_plscr"]
+[ext_resource type="Texture2D" path="res://assets/characters/boy/sprite.png" id="2_boyspr"]
+[ext_resource type="Texture2D" path="res://assets/effects/particles/flame_particle.png" id="3_flmpt"]
+[ext_resource type="Texture2D" path="res://assets/effects/particles/spark_particle.png" id="4_spkpt"]
+[ext_resource type="Texture2D" path="res://assets/effects/particles/smoke_particle.png" id="5_smkpt"]
+[ext_resource type="Texture2D" path="res://assets/effects/lighting/flashlight_cone.png" id="6_flcone"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
+radius = 16.0
+height = 56.0
+
+[sub_resource type="Gradient" id="Gradient_ambient"]
+colors = PackedColorArray(0.9, 0.95, 1.0, 0.8, 0.4, 0.5, 0.7, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ambient"]
+gradient = SubResource("Gradient_ambient")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="Gradient" id="Gradient_fire"]
+colors = PackedColorArray(1, 0.5, 0.1, 1, 0.8, 0.2, 0.05, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fire"]
+gradient = SubResource("Gradient_fire")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_plscr")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_boyspr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1")
+
+[node name="AmbientLight" type="PointLight2D" parent="."]
+energy = 0.75
+texture = SubResource("GradientTexture2D_ambient")
+texture_scale = 1.3
+
+[node name="Nozzle" type="Node2D" parent="."]
+
+[node name="Flashlight" type="PointLight2D" parent="Nozzle"]
+position = Vector2(16, 0)
+energy = 1.5
+texture = ExtResource("6_flcone")
+offset = Vector2(240, 0)
+texture_scale = 1.3
+
+[node name="FlameCone" type="Area2D" parent="Nozzle"]
+collision_layer = 16
+collision_mask = 1
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Nozzle/FlameCone"]
+polygon = PackedVector2Array(20, -10, 130, -50, 155, 0, 130, 50, 20, 10)
+
+[node name="FireParticles" type="CPUParticles2D" parent="Nozzle/FlameCone"]
+position = Vector2(24, 0)
+emitting = false
+amount = 40
+lifetime = 0.45
+texture = ExtResource("3_flmpt")
+spread = 22.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 280.0
+initial_velocity_max = 340.0
+scale_amount_min = 0.5
+scale_amount_max = 1.3
+
+[node name="Sparks" type="CPUParticles2D" parent="Nozzle/FlameCone"]
+position = Vector2(24, 0)
+emitting = false
+amount = 25
+lifetime = 0.4
+texture = ExtResource("4_spkpt")
+spread = 26.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 380.0
+scale_amount_min = 0.4
+scale_amount_max = 0.9
+
+[node name="Smoke" type="CPUParticles2D" parent="Nozzle/FlameCone"]
+position = Vector2(30, 0)
+emitting = false
+amount = 15
+lifetime = 0.6
+texture = ExtResource("5_smkpt")
+spread = 35.0
+gravity = Vector2(0, -15)
+initial_velocity_min = 160.0
+initial_velocity_max = 240.0
+scale_amount_min = 0.8
+scale_amount_max = 1.6
+
+[node name="FireLight" type="PointLight2D" parent="Nozzle/FlameCone"]
+position = Vector2(80, 0)
+energy = 2.4
+texture = SubResource("GradientTexture2D_fire")
+texture_scale = 1.8
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0

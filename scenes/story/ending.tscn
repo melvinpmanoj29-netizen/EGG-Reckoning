@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://csend00000000"]
+
+[ext_resource type="Script" path="res://scenes/story/ending.gd" id="1_endscr"]
+
+[node name="Ending" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_endscr")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.02, 0.04, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(500, 0)
+theme_override_constants/separation = 24
+
+[node name="PanelLabel" type="Label" parent="Center/VBox"]
+layout_mode = 2
+text = "The nightmare was over."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="EggContainer" type="Control" parent="Center/VBox"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="EggGraphic" type="Node2D" parent="Center/VBox/EggContainer"]
+position = Vector2(250, 40)
+
+[node name="EggPoly" type="Polygon2D" parent="Center/VBox/EggContainer/EggGraphic"]
+polygon = PackedVector2Array(0, -32, 20, -20, 24, 8, 16, 26, 0, 32, -16, 26, -24, 8, -20, -20)
+color = Color(0.85, 0.8, 0.72, 1)
+
+[node name="CrackPoly" type="Polygon2D" parent="Center/VBox/EggContainer/EggGraphic"]
+polygon = PackedVector2Array(0, -20, 6, -10, -4, 0, 8, 12, -2, 24, -4, 22, 5, 12, -7, 0, 3, -10)
+color = Color(0.15, 0.05, 0.05, 1)
+
+[node name="ContinueBtn" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Next →"

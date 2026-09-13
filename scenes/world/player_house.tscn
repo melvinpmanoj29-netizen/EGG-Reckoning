@@ -1,0 +1,300 @@
+[gd_scene load_steps=31 format=3 uid="uid://csph000000000"]
+
+[ext_resource type="Script" path="res://scenes/world/player_house.gd" id="1_phscr"]
+[ext_resource type="PackedScene" uid="uid://cspl000000000" path="res://player/player.tscn" id="2_plscn"]
+[ext_resource type="PackedScene" uid="uid://cshud00000000" path="res://ui/hud.tscn" id="3_hudscn"]
+[ext_resource type="PackedScene" uid="uid://csin00000000" path="res://ui/investigation_modal.tscn" id="4_modscn"]
+[ext_resource type="PackedScene" uid="uid://csinv00000000" path="res://ui/inventory_menu.tscn" id="5_invscn"]
+[ext_resource type="PackedScene" uid="uid://csint00000000" path="res://scenes/interactables/interactable.tscn" id="6_intscn"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/floorboards.png" id="7_woodtex"]
+[ext_resource type="Script" path="res://scenes/world/flicker_light.gd" id="8_flscr"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/bed.png" id="9_bedtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/desk.png" id="10_desktex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/chair.png" id="11_chairtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/wardrobe.png" id="12_wardtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/bookshelf.png" id="13_booktex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/tv.png" id="14_tvtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/fridge.png" id="15_fridgtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/storage_box.png" id="16_stortex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/window.png" id="17_wintex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/door.png" id="18_doortex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/rug.png" id="19_rugtex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/wall_frame.png" id="20_frametex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/lamp.png" id="21_lamptex"]
+[ext_resource type="Texture2D" path="res://assets/environment/houses/wall_tile.png" id="22_walltex"]
+
+[sub_resource type="Gradient" id="Gradient_lamp"]
+colors = PackedColorArray(1, 0.85, 0.5, 1, 0.9, 0.6, 0.2, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lamp"]
+gradient = SubResource("Gradient_lamp")
+width = 340
+height = 340
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="Gradient" id="Gradient_moon"]
+colors = PackedColorArray(0.35, 0.55, 0.85, 0.85, 0.08, 0.15, 0.4, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_moon"]
+gradient = SubResource("Gradient_moon")
+width = 280
+height = 280
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(760, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(24, 460)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bed"]
+size = Vector2(86, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_desk"]
+size = Vector2(98, 54)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wardrobe"]
+size = Vector2(68, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bookshelf"]
+size = Vector2(82, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tv"]
+size = Vector2(58, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
+size = Vector2(48, 54)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_storage"]
+size = Vector2(64, 50)
+
+[node name="PlayerHouse" type="Node2D"]
+script = ExtResource("1_phscr")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.7, 0.65, 0.75, 1)
+
+[node name="Flooring" type="Polygon2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("7_woodtex")
+texture_scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-360, -220, 360, -220, 360, 220, -360, 220)
+
+[node name="Rug" type="Sprite2D" parent="."]
+position = Vector2(-20, 30)
+texture = ExtResource("19_rugtex")
+
+[node name="WallDecorations" type="Node2D" parent="."]
+
+[node name="FrameLeft" type="Sprite2D" parent="WallDecorations"]
+position = Vector2(-160, -200)
+texture = ExtResource("20_frametex")
+
+[node name="FrameRight" type="Sprite2D" parent="WallDecorations"]
+position = Vector2(180, -200)
+texture = ExtResource("20_frametex")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallNorth" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -220)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallNorth"]
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallNorth"]
+texture_repeat = 2
+texture = ExtResource("22_walltex")
+polygon = PackedVector2Array(-370, -12, 370, -12, 370, 12, -370, 12)
+
+[node name="WallSouthLeft" type="StaticBody2D" parent="Walls"]
+position = Vector2(-210, 220)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallSouthLeft"]
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallSouthLeft"]
+texture_repeat = 2
+texture = ExtResource("22_walltex")
+polygon = PackedVector2Array(-170, -12, 170, -12, 170, 12, -170, 12)
+
+[node name="WallSouthRight" type="StaticBody2D" parent="Walls"]
+position = Vector2(210, 220)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallSouthRight"]
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallSouthRight"]
+texture_repeat = 2
+texture = ExtResource("22_walltex")
+polygon = PackedVector2Array(-170, -12, 170, -12, 170, 12, -170, 12)
+
+[node name="WallWest" type="StaticBody2D" parent="Walls"]
+position = Vector2(-360, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallWest"]
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallWest"]
+texture_repeat = 2
+texture = ExtResource("22_walltex")
+polygon = PackedVector2Array(-12, -230, 12, -230, 12, 230, -12, 230)
+
+[node name="WallEast" type="StaticBody2D" parent="Walls"]
+position = Vector2(360, 0)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallEast"]
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Visual" type="Polygon2D" parent="Walls/WallEast"]
+texture_repeat = 2
+texture = ExtResource("22_walltex")
+polygon = PackedVector2Array(-12, -230, 12, -230, 12, 230, -12, 230)
+
+[node name="BedArea" type="StaticBody2D" parent="."]
+position = Vector2(-260, -120)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BedArea"]
+shape = SubResource("RectangleShape2D_bed")
+
+[node name="BedSprite" type="Sprite2D" parent="BedArea"]
+texture = ExtResource("9_bedtex")
+
+[node name="Wardrobe" type="StaticBody2D" parent="."]
+position = Vector2(-315, 25)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wardrobe"]
+shape = SubResource("RectangleShape2D_wardrobe")
+
+[node name="WardrobeSprite" type="Sprite2D" parent="Wardrobe"]
+texture = ExtResource("12_wardtex")
+
+[node name="Interactable" parent="Wardrobe" instance=ExtResource("6_intscn")]
+prompt_text = "Search Wardrobe (Equipment)"
+
+[node name="Desk" type="StaticBody2D" parent="."]
+position = Vector2(-60, -165)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Desk"]
+shape = SubResource("RectangleShape2D_desk")
+
+[node name="DeskSprite" type="Sprite2D" parent="Desk"]
+texture = ExtResource("10_desktex")
+
+[node name="DeskLamp" type="Node2D" parent="Desk"]
+position = Vector2(-35, -12)
+
+[node name="LampSprite" type="Sprite2D" parent="Desk/DeskLamp"]
+texture = ExtResource("21_lamptex")
+
+[node name="Light" type="PointLight2D" parent="Desk/DeskLamp"]
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 1.35
+energy = 1.25
+script = ExtResource("8_flscr")
+
+[node name="FriendsLetter" type="Node2D" parent="Desk"]
+position = Vector2(0, 0)
+
+[node name="Interactable" parent="Desk/FriendsLetter" instance=ExtResource("6_intscn")]
+prompt_text = "Read Friend's Letter (Detective Vance)"
+
+[node name="Chair" type="Sprite2D" parent="."]
+position = Vector2(-60, -118)
+texture = ExtResource("11_chairtex")
+
+[node name="Bookshelf" type="StaticBody2D" parent="."]
+position = Vector2(110, -175)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bookshelf"]
+shape = SubResource("RectangleShape2D_bookshelf")
+
+[node name="BookshelfSprite" type="Sprite2D" parent="Bookshelf"]
+texture = ExtResource("13_booktex")
+
+[node name="Interactable" parent="Bookshelf" instance=ExtResource("6_intscn")]
+prompt_text = "Examine Bookshelf (Forensic Notes)"
+
+[node name="TV" type="StaticBody2D" parent="."]
+position = Vector2(250, -165)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TV"]
+shape = SubResource("RectangleShape2D_tv")
+
+[node name="TVSprite" type="Sprite2D" parent="TV"]
+texture = ExtResource("14_tvtex")
+
+[node name="Interactable" parent="TV" instance=ExtResource("6_intscn")]
+prompt_text = "Inspect Emergency TV Broadcast"
+
+[node name="Window" type="Node2D" parent="."]
+position = Vector2(0, -210)
+
+[node name="WindowSprite" type="Sprite2D" parent="Window"]
+texture = ExtResource("17_wintex")
+
+[node name="Moonlight" type="PointLight2D" parent="Window"]
+texture = SubResource("GradientTexture2D_moon")
+texture_scale = 1.6
+energy = 0.85
+
+[node name="Interactable" parent="Window" instance=ExtResource("6_intscn")]
+prompt_text = "Look out Window into Harborvale"
+
+[node name="Refrigerator" type="StaticBody2D" parent="."]
+position = Vector2(-260, 160)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Refrigerator"]
+shape = SubResource("RectangleShape2D_fridge")
+
+[node name="FridgeSprite" type="Sprite2D" parent="Refrigerator"]
+texture = ExtResource("15_fridgtex")
+
+[node name="Interactable" parent="Refrigerator" instance=ExtResource("6_intscn")]
+prompt_text = "Check Refrigerator Supplies"
+
+[node name="StorageCloset" type="StaticBody2D" parent="."]
+position = Vector2(260, 130)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StorageCloset"]
+shape = SubResource("RectangleShape2D_storage")
+
+[node name="StorageSprite" type="Sprite2D" parent="StorageCloset"]
+texture = ExtResource("16_stortex")
+
+[node name="Interactable" parent="StorageCloset" instance=ExtResource("6_intscn")]
+prompt_text = "Storage Closet [Locked]"
+
+[node name="FrontDoor" type="Node2D" parent="."]
+position = Vector2(0, 210)
+
+[node name="DoorSprite" type="Sprite2D" parent="FrontDoor"]
+texture = ExtResource("18_doortex")
+
+[node name="Interactable" parent="FrontDoor" instance=ExtResource("6_intscn")]
+prompt_text = "Front Door (Exit into Town)"
+
+[node name="Player" parent="." instance=ExtResource("2_plscn")]
+position = Vector2(-190, -70)
+
+[node name="HUD" parent="." instance=ExtResource("3_hudscn")]
+
+[node name="InvestigationModal" parent="." instance=ExtResource("4_modscn")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("5_invscn")]
