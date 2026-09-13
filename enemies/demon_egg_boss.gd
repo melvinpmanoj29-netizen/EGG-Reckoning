@@ -153,6 +153,8 @@ func _phase3_behavior(delta: float) -> void:
 		_telegraph_and_launch_egg_bomb()
 
 func _transition_to_phase(new_phase: int) -> void:
+	if new_phase <= current_phase or _is_dying:
+		return
 	current_phase = new_phase
 	phase_changed.emit(current_phase)
 
@@ -268,24 +270,30 @@ func take_fire_damage(amount: float) -> void:
 	if _is_dying:
 		return
 
-	if current_phase < 3:
-		# Immune during Phase 1 & 2
-		var t := create_tween()
-		t.tween_property(self, "modulate", Color(0.5, 0.5, 1.8, 1.0), 0.05)
-		t.tween_property(self, "modulate", Color.WHITE, 0.1)
-		return
+	var effective_damage: float = amount
+	if current_phase == 1:
+		effective_damage = amount * 0.65
+	elif current_phase == 2:
+		effective_damage = amount * 0.85
+	else:
+		effective_damage = amount * 1.35
 
-	health -= amount
-	health_changed.emit(max(0.0, health), max_health)
-	modulate = Color(1.6, 0.3, 0.1, 1.0)
+	health = max(0.0, health - effective_damage)
+	health_changed.emit(health, max_health)
+	
+	modulate = Color(1.8, 0.35, 0.15, 1.0)
 	var tween := create_tween()
-	tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+	tween.tween_property(self, "modulate", Color.WHITE, 0.12)
 
 	var hud := _get_hud()
 	if hud and hud.has_method("update_boss_bar"):
-		hud.update_boss_bar(max(0.0, health), max_health)
+		hud.update_boss_bar(health, max_health)
 
-	if health <= 0.0:
+	if current_phase == 1 and health <= max_health * 0.66:
+		_transition_to_phase(2)
+	elif current_phase == 2 and health <= max_health * 0.33:
+		_transition_to_phase(3)
+	elif health <= 0.0:
 		_die()
 
 func _die() -> void:
